@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Sasa ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    position:relative;
+}
+
+/* FOTO DE FUNDO */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:url("sasa.jpg") center center;
+    background-size:cover;
+    background-repeat:no-repeat;
+
+    z-index:-2;
+}
+
+/* CAMADA ROSA/PRETA */
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.25),
+            rgba(255,20,147,0.15),
+            rgba(0,0,0,0.35)
+        );
+
+    z-index:-1;
+}
+
+/* BOTÃO DE MÚSICA */
+#musicButton{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    z-index:9999;
+
+    border:none;
+    border-radius:30px;
+
+    padding:12px 24px;
+
+    background:rgba(255,20,147,0.9);
+    color:white;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 15px rgba(255,20,147,0.8),
+        0 0 30px rgba(255,20,147,0.4);
+
+    transition:0.3s;
+}
+
+#musicButton:hover{
+    transform:translateX(-50%) scale(1.05);
+}
+
+/* CORAÇÕES */
+.heart{
+    position:absolute;
+    color:rgba(255,182,193,0.25);
+    pointer-events:none;
+    animation:heartFloat linear infinite;
+}
+
+@keyframes heartFloat{
+    from{
+        transform:translateY(110vh) rotate(0deg);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    80%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-120px) rotate(360deg);
+        opacity:0;
+    }
+}
+
+/* FRASES */
+.love{
+    position:absolute;
+    bottom:-100px;
+    white-space:nowrap;
+    font-weight:bold;
+    pointer-events:none;
+
+    text-shadow:
+        0 0 5px rgba(255,255,255,.8),
+        0 0 15px rgba(255,105,180,.8),
+        0 0 25px rgba(255,20,147,.8);
+
+    animation:loveFloat 10s linear forwards;
+}
+
+@keyframes loveFloat{
+    from{
+        transform:translateY(0);
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    90%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<button id="musicButton">
+❤️ Tocar Música ❤️
+</button>
+
+<audio id="bgMusic" loop>
+    <source src="Deusa.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const loves = [
+"Sasa ❤️",
+"Eu te amo ❤️",
+"I love you ❤️",
+"Je t’aime ❤️",
+"Te amo ❤️",
+"Você é especial ❤️",
+"Meu mundo ❤️",
+"Minha pessoa favorita ❤️",
+"Você me faz sorrir ❤️",
+"Para sempre você ❤️",
+"Só penso em você ❤️",
+"Você é incrível ❤️",
+"Você ilumina meus dias ❤️",
+"Meu coração é seu ❤️",
+"Minha felicidade tem nome: Sasa ❤️",
+"Obrigado por existir ❤️",
+"Você é a melhor parte dos meus dias ❤️",
+"Meu lugar favorito é ao seu lado ❤️",
+"Você faz tudo ficar melhor ❤️",
+"Espero que tenha gostado ❤️",
+"Com carinho, Marco ❤️"
+];
+
+let currentLoveIndex = 0;
+const activePositions = [];
+
+/* MÚSICA */
+
+const musicButton =
+    document.getElementById("musicButton");
+
+const bgMusic =
+    document.getElementById("bgMusic");
+
+let playing = false;
+
+musicButton.addEventListener("click", () => {
+
+    if(!playing){
+
+        bgMusic.play();
+
+        musicButton.innerHTML =
+            "⏸️ Pausar Música";
+
+        playing = true;
+
+    }else{
+
+        bgMusic.pause();
+
+        musicButton.innerHTML =
+            "❤️ Tocar Música ❤️";
+
+        playing = false;
+    }
+
+});
+
+/* CORAÇÕES */
+
+function createHeart(){
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 35) + "px";
+    heart.style.animationDuration =
+        (8 + Math.random() * 10) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 18000);
+}
+
+/* FRASES */
+
+function createLove(){
+
+    const love = document.createElement("div");
+
+    love.className = "love";
+
+    love.innerText = loves[currentLoveIndex];
+
+    currentLoveIndex++;
+
+    if(currentLoveIndex >= loves.length){
+        currentLoveIndex = 0;
+    }
+
+    love.style.fontSize =
+        (18 + Math.random() * 10) + "px";
+
+    const colors = [
+        "#ffffff",
+        "#ffd1dc",
+        "#ffb6c1",
+        "#ff69b4",
+        "#ff1493"
+    ];
+
+    love.style.color =
+        colors[Math.floor(Math.random() * colors.length)];
+
+    document.body.appendChild(love);
+
+    const textWidth = love.offsetWidth;
+
+    let position;
+    let valid = false;
+    let attempts = 0;
+
+    while(!valid && attempts < 50){
+
+        position =
+            Math.random() *
+            Math.max(
+                0,
+                window.innerWidth - textWidth - 20
+            );
+
+        valid = true;
+
+        for(const pos of activePositions){
+
+            if(Math.abs(pos - position) < 120){
+                valid = false;
+                break;
+            }
+        }
+
+        attempts++;
+    }
+
+    activePositions.push(position);
+
+    love.style.left = position + "px";
+
+    setTimeout(() => {
+
+        love.remove();
+
+        const index =
+            activePositions.indexOf(position);
+
+        if(index > -1){
+            activePositions.splice(index,1);
+        }
+
+    }, 10000);
+}
+
+/* INICIALIZAÇÃO */
+
+for(let i = 0; i < 30; i++){
+    setTimeout(createHeart, i * 100);
+}
+
+setInterval(createHeart, 350);
+setInterval(createLove, 1200);
+
+</script>
+
+</body>
+</html>
